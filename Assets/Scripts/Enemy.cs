@@ -2,6 +2,7 @@ using System;using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using DG.Tweening;
 
 public enum EnemyType
 {
@@ -25,6 +26,8 @@ public class Enemy : MonoBehaviour
     public float _health = 5;
     public float _seeDistance = 5f;
     public float _attackDistance = 2f;
+    public float _timeBetweenAttacks = 1f;
+    public int _attackDamage = 1;
 
     private Player _player;
     private Transform _target;
@@ -38,6 +41,8 @@ public class Enemy : MonoBehaviour
         _agent = GetComponent<NavMeshAgent>();
     }
 
+    private float _timeSinceLastAttack = 0;
+    
     private void Update()
     {
         if (_enemyState == EnemyState.DEAD) return;
@@ -56,6 +61,8 @@ public class Enemy : MonoBehaviour
             }
             return;
         }
+
+        _timeSinceLastAttack += Time.deltaTime;
         
         if (_enemyState == EnemyState.CHASE)
         {
@@ -75,7 +82,11 @@ public class Enemy : MonoBehaviour
         {
             if(IsInAttackRange())
             {
-                print("I am attacking");
+                if (_timeSinceLastAttack >= _timeBetweenAttacks)
+                {
+                    StartCoroutine(DebugAttack());
+                    _timeSinceLastAttack = 0;
+                }
             }
             else
             {
@@ -94,5 +105,14 @@ public class Enemy : MonoBehaviour
             return true;
         
         return false;
+    }
+
+    private float _attackTime = 0.1f;
+    IEnumerator DebugAttack()
+    {
+        transform.DOScale(1.25f, _attackTime);
+        _player.ApplyDamage(_attackDamage);
+        yield return new WaitForSeconds(_attackTime);
+        transform.DOScale(1f, _attackTime);
     }
 }

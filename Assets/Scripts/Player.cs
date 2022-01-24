@@ -11,6 +11,8 @@ public class Player : MonoBehaviour
     public float _playerMovementSpeed = 10.0f;
 
     private Vector3 inputVector;
+
+    private float _currentHealth = 10;
     void Start()
     {
         inputVector = Vector2.zero;
@@ -36,5 +38,20 @@ public class Player : MonoBehaviour
             var angle = Mathf.Atan2(inputValue.y, -inputValue.x) * Mathf.Rad2Deg;
             transform.rotation = Quaternion.AngleAxis(angle, Vector3.up);
         }
+    }
+
+    public void ApplyDamage(int damage)
+    {
+        _currentHealth -= damage;
+
+        if (_currentHealth <= 0)
+        {
+            Kill();
+        }
+    }
+
+    private void Kill()
+    {
+        Destroy(gameObject);
     }
 }
