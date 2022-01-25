@@ -11,17 +11,25 @@ public class Player : MonoBehaviour
     public float _playerMovementSpeed = 10.0f;
 
     private Vector3 inputVector;
+    private Vector2 _rotationValue;
 
     private float _currentHealth = 10;
+
+    private WeaponController _weaponController;
+    
     void Start()
     {
         inputVector = Vector2.zero;
         _controller = GetComponent<CharacterController>();
+        _weaponController = GetComponentInChildren<WeaponController>();
     }
 
     void Update()
     {
         _controller.SimpleMove(inputVector * _playerMovementSpeed);
+        
+        if(_rotationValue.magnitude != 0)
+            _weaponController.Shoot();
     }
 
     public void OnMovement(InputAction.CallbackContext value)
@@ -32,10 +40,10 @@ public class Player : MonoBehaviour
 
     public void OnAim(InputAction.CallbackContext value)
     {
-        var inputValue = value.ReadValue<Vector2>();
+        _rotationValue = value.ReadValue<Vector2>();
 
-        if (inputValue.x != 0.0f || inputValue.y != 0.0f) {
-            var angle = Mathf.Atan2(inputValue.y, -inputValue.x) * Mathf.Rad2Deg;
+        if (_rotationValue.x != 0.0f || _rotationValue.y != 0.0f) {
+            var angle = Mathf.Atan2(_rotationValue.y, -_rotationValue.x) * Mathf.Rad2Deg;
             transform.rotation = Quaternion.AngleAxis(angle, Vector3.up);
         }
     }

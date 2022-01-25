@@ -29,6 +29,8 @@ public class Enemy : MonoBehaviour
     public float _timeBetweenAttacks = 1f;
     public int _attackDamage = 1;
 
+    private float _currentHealth = 0;
+
     private Player _player;
     private Transform _target;
 
@@ -39,6 +41,7 @@ public class Enemy : MonoBehaviour
         _player = GameManager._instance.player;
         _target = _player.gameObject.transform;
         _agent = GetComponent<NavMeshAgent>();
+        _currentHealth = _health;
     }
 
     private float _timeSinceLastAttack = 0;
@@ -114,5 +117,20 @@ public class Enemy : MonoBehaviour
         _player.ApplyDamage(_attackDamage);
         yield return new WaitForSeconds(_attackTime);
         transform.DOScale(1f, _attackTime);
+    }
+
+    public void ApplyDamage(int damage)
+    {
+        _currentHealth -= damage;
+        
+        if (_currentHealth <= 0)
+        {
+            Kill();
+        }
+    }
+
+    private void Kill()
+    {
+        Destroy(gameObject);
     }
 }
