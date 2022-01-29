@@ -36,12 +36,13 @@ public class Enemy : MonoBehaviour
 
     private NavMeshAgent _agent;
 
-    private void Start()
+    public void Reset()
     {
         _player = GameManager._instance.player;
         _target = _player.gameObject.transform;
         _agent = GetComponent<NavMeshAgent>();
         _currentHealth = _health;
+        _enemyState = EnemyState.IDLE;
     }
 
     private float _timeSinceLastAttack = 0;
@@ -131,6 +132,7 @@ public class Enemy : MonoBehaviour
 
     private void Kill()
     {
-        Destroy(gameObject);
+        gameObject.SetActive(false);
+        EnemySpawner.instance.RandomSpawn();
     }
 }

@@ -35,10 +35,8 @@ public class WeaponController : MonoBehaviour
             else
             {
                 SoundManager.instance.PlayEffect(SoundTypes.shoot);
-                var bullet = Instantiate(_bulletPrefab, _muzzlePlace.position, _muzzlePlace.rotation);
-                bullet.transform.SetParent(null);
-                Destroy(bullet, 2f);
-                
+                var bullet = PoolManager.instance.SpawnBullet(GameTypes.Bullets.normal, _muzzlePlace.position, _muzzlePlace.rotation);
+                bullet.GetComponent<Bullet>().Reset();
                 _currentBullets--;
                 _timeSinceLastShot = 0;
             }

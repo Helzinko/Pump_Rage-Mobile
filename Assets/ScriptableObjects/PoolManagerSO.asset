@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2fcecdde921568c4e8e9e00a9626f70a, type: 3}
+  m_Name: PoolManagerSO
+  m_EditorClassIdentifier: 
+  BulletPool:
+  - type: 0
+    prefab: {fileID: 7799240085647733966, guid: 736110c5e8acb244b836a1f6a1b88964,
+      type: 3}
+    poolSize: 10
+  EnemiesPool:
+  - type: 0
+    prefab: {fileID: 3997216870685203697, guid: 8006c85995a85984a8749a5de3ad9be0,
+      type: 3}
+    poolSize: 10
