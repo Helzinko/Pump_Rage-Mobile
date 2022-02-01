@@ -29,6 +29,8 @@ public class Enemy : MonoBehaviour
     public float _timeBetweenAttacks = 1f;
     public int _attackDamage = 1;
 
+    public int score = 5;
+
     private float _currentHealth = 0;
 
     private Player _player;
@@ -132,6 +134,7 @@ public class Enemy : MonoBehaviour
 
     private void Kill()
     {
+        StatsManager._instance.AddScore(score);
         gameObject.SetActive(false);
         EnemySpawner.instance.RandomSpawn();
     }
