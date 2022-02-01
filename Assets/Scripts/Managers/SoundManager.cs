@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 public enum SoundTypes
@@ -38,15 +39,17 @@ public class SoundManager : MonoBehaviour
 
     public void PlayEffect(SoundTypes clip)
     {
-        var sound = Instantiate(_effectSource, transform);
+        //var sound = Instantiate(_effectSource, transform);
+        var sound = PoolManager.instance.SpawnSound(GameTypes.Sounds.effect);
         var audioClip = FindClip(clip, soundsSo.sounds);
         sound.GetComponent<AudioSource>().PlayOneShot(audioClip);
-        Destroy(sound, audioClip.length);
+        //Destroy(sound, audioClip.length);
+        StartCoroutine(DisableSound(sound, audioClip.length));
     }
 
     public void PlayMusic(SoundTypes clip)
     {
-        var sound = Instantiate(_musicSource, transform);
+        var sound = PoolManager.instance.SpawnSound(GameTypes.Sounds.music);
         var audioClip = FindClip(clip, soundsSo.sounds);
 
         if(music) music.Stop();
@@ -66,5 +69,11 @@ public class SoundManager : MonoBehaviour
         }
 
         return null;
+    }
+
+    IEnumerator DisableSound(GameObject sound, float lenght)
+    {
+        yield return new WaitForSeconds(lenght);
+        sound.SetActive(false);
     }
 }

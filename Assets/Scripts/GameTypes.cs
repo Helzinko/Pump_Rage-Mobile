@@ -16,4 +16,10 @@ public class GameTypes : MonoBehaviour
         normal = 0,
         shooting = 1,
     }
+    
+    public enum Sounds
+    {
+        effect = 0,
+        music = 1,
+    }
 }

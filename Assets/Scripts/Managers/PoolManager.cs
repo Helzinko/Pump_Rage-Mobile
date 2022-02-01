@@ -6,6 +6,12 @@ using UnityEngine;
 public class PoolManager : MonoBehaviour
 {
     public static PoolManager instance;
+    
+    public Dictionary<GameTypes.Bullets, Queue<GameObject>> BulletPool;
+    public Dictionary<GameTypes.Enemies, Queue<GameObject>> EnemyPool;
+    public Dictionary<GameTypes.Sounds, Queue<GameObject>> SoundsPool;
+
+    [SerializeField] private PoolManagerSO _pools;
     void Awake()
     {
         if (instance == null)
@@ -20,6 +26,7 @@ public class PoolManager : MonoBehaviour
         
         BulletPool = new Dictionary<GameTypes.Bullets, Queue<GameObject>>();
         EnemyPool = new Dictionary<GameTypes.Enemies, Queue<GameObject>>();
+        SoundsPool = new Dictionary<GameTypes.Sounds, Queue<GameObject>>();
 
         foreach (var bullet in _pools.BulletPool)
         {
@@ -48,12 +55,21 @@ public class PoolManager : MonoBehaviour
             
             EnemyPool.Add(enemy.type, enemyPool);
         }
-    }
-    
-    public Dictionary<GameTypes.Bullets, Queue<GameObject>> BulletPool;
-    public Dictionary<GameTypes.Enemies, Queue<GameObject>> EnemyPool;
+        
+        foreach (var sound in _pools.SoundsPool)
+        {
+            Queue<GameObject> soundPool = new Queue<GameObject>();
 
-    [SerializeField] private PoolManagerSO _pools;
+            for (int i = 0; i < sound.poolSize; i++)
+            {
+                GameObject _sound = Instantiate(sound.prefab);
+                _sound.SetActive(false);
+                soundPool.Enqueue(_sound);
+            }
+            
+            SoundsPool.Add(sound.type, soundPool);
+        }
+    }
 
     public GameObject SpawnBullet(GameTypes.Bullets bullet, Vector3 pos, Quaternion rot)
     {
@@ -85,6 +101,14 @@ public class PoolManager : MonoBehaviour
         EnemyPool[enemy].Enqueue(enemyToSpawn);
 
         return enemyToSpawn;
+    }
+    
+    public GameObject SpawnSound(GameTypes.Sounds sound)
+    {
+        var soundToSpawn = SoundsPool[sound].Dequeue();
+        soundToSpawn.SetActive(true);
+        SoundsPool[sound].Enqueue(soundToSpawn);
+        return soundToSpawn;
     }
 }
 
