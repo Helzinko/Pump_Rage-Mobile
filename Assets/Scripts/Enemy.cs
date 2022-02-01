@@ -38,6 +38,15 @@ public class Enemy : MonoBehaviour
 
     private NavMeshAgent _agent;
 
+    public Vector3 _initialPos;
+    public Quaternion _initialRotation;
+
+    private void Start()
+    {
+        _initialPos = transform.position;
+        GameManager._instance.GameplayReset.AddListener(Reset);
+    }
+
     public void Reset()
     {
         _player = GameManager._instance.player;
@@ -45,6 +54,9 @@ public class Enemy : MonoBehaviour
         _agent = GetComponent<NavMeshAgent>();
         _currentHealth = _health;
         _enemyState = EnemyState.IDLE;
+
+        transform.position = _initialPos;
+        transform.rotation = _initialRotation;
     }
 
     private float _timeSinceLastAttack = 0;

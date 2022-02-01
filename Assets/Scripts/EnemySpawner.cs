@@ -26,15 +26,18 @@ public class EnemySpawner : MonoBehaviour
         foreach (var spawnPoint in spawnPoints)
         {
             var enemy = PoolManager.instance.SpawnEnemy(GameTypes.Enemies.normal, spawnPoint.position,
-                spawnPoint.rotation);
-            enemy.GetComponent<Enemy>().Reset();
+                spawnPoint.rotation).GetComponent<Enemy>();
+
+            enemy._initialPos = spawnPoint.position;
+            enemy._initialRotation = spawnPoint.rotation;
+            enemy.Reset();
         }
     }
 
     public void RandomSpawn()
     {
         int rand = Random.Range(0, 4);
-        
+
         var enemy = PoolManager.instance.SpawnEnemy(GameTypes.Enemies.normal, spawnPoints[rand].position,
             spawnPoints[rand].rotation);
         enemy.GetComponent<Enemy>().Reset();
