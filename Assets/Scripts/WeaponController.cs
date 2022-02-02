@@ -8,14 +8,18 @@ public class WeaponController : MonoBehaviour
     public float _timeBetweenShots = 0.5f;
     public int _bulletCount = 7;
     private int _currentBullets = 0;
+    private float _reloadingTime = 0.5f;
 
     private float _timeSinceLastShot = 0f;
 
     [SerializeField] private Transform _muzzlePlace;
     [SerializeField] private GameObject _bulletPrefab;
+
+    private bool isReloading = false;
     private void Start()
     {
         _currentBullets = _bulletCount;
+        HUD._instance.SetBullets(_currentBullets);
     }
 
     private void Update()
@@ -29,8 +33,11 @@ public class WeaponController : MonoBehaviour
         {
             if (_currentBullets <= 0)
             {
-                print("I am reloading...");
-                _currentBullets = _bulletCount;
+                if (!isReloading)
+                {
+                    StartCoroutine(Reloading());
+                    isReloading = true;
+                }
             }
             else
             {
@@ -39,6 +46,7 @@ public class WeaponController : MonoBehaviour
                 bullet.GetComponent<Bullet>().Reset();
                 _currentBullets--;
                 _timeSinceLastShot = 0;
+                HUD._instance.SetBullets(_currentBullets);
             }
         }
     }
@@ -47,5 +55,15 @@ public class WeaponController : MonoBehaviour
     {
         _currentBullets = _bulletCount;
         _timeSinceLastShot = 0f;
+        HUD._instance.SetBullets(_currentBullets);
+    }
+
+    IEnumerator Reloading()
+    {
+        yield return new WaitForSeconds(_reloadingTime);
+        
+        _currentBullets = _bulletCount;
+        HUD._instance.SetBullets(_currentBullets);
+        isReloading = false;
     }
 }

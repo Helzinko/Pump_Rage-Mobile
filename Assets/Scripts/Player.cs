@@ -35,6 +35,7 @@ public class Player : MonoBehaviour
         _initialRotation = transform.rotation;
         
         _currentHealth = _health;
+        HUD._instance.SetHealth(_currentHealth);
     }
 
     void Update()
@@ -64,6 +65,7 @@ public class Player : MonoBehaviour
     public void ApplyDamage(int damage)
     {
         _currentHealth -= damage;
+        HUD._instance.SetHealth(_currentHealth);
 
         if (_currentHealth <= 0)
         {
@@ -82,6 +84,7 @@ public class Player : MonoBehaviour
         _controller.enabled = false;
         
         _currentHealth = _health;
+        HUD._instance.SetHealth(_currentHealth);
         transform.position = _initialPos;
         transform.rotation = _initialRotation;
         _weaponController.Reset();
