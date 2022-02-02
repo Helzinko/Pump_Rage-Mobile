@@ -197,6 +197,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 1435187871769388791}
     m_Modifications:
     - target: {fileID: 1158169503, guid: 15069a263fdd9f9499af4140f3f61307, type: 3}
+      propertyPath: m_text
+      value: Debug Tools
+      objectReference: {fileID: 0}
+    - target: {fileID: 1158169503, guid: 15069a263fdd9f9499af4140f3f61307, type: 3}
       propertyPath: m_fontStyle
       value: 1
       objectReference: {fileID: 0}
