@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
@@ -13,15 +14,27 @@ public class Player : MonoBehaviour
     private Vector3 inputVector;
     private Vector2 _rotationValue;
 
-    private float _currentHealth = 10;
+    [SerializeField] private int _health = 10;
+
+    private int _currentHealth;
 
     private WeaponController _weaponController;
+
+    private Vector3 _initialPos;
+    private Quaternion _initialRotation;
     
     void Start()
     {
+        GameManager._instance.GameplayReset.AddListener(Reset);
+        
         inputVector = Vector2.zero;
         _controller = GetComponent<CharacterController>();
         _weaponController = GetComponentInChildren<WeaponController>();
+
+        _initialPos = transform.position;
+        _initialRotation = transform.rotation;
+        
+        _currentHealth = _health;
     }
 
     void Update()
@@ -60,6 +73,22 @@ public class Player : MonoBehaviour
 
     private void Kill()
     {
-        Destroy(gameObject);
+        gameObject.SetActive(false);
+    }
+
+    private void Reset()
+    {
+        // disable so can move player
+        _controller.enabled = false;
+        
+        _currentHealth = _health;
+        transform.position = _initialPos;
+        transform.rotation = _initialRotation;
+        _weaponController.Reset();
+        
+        // enable
+        _controller.enabled = true;
+        
+        gameObject.SetActive(true);
     }
 }

@@ -12,11 +12,14 @@ public class StatsManager : MonoBehaviour
     private void Start()
     {
         Reset();
+        
+        GameManager._instance.GameplayReset.AddListener(Reset);
     }
-    
+
     private void Reset()
     {
         _currentScore = 0;
+        HUD._instance.SetScore(_currentScore);
     }
     private void Awake()
     {

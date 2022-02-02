@@ -38,15 +38,6 @@ public class Enemy : MonoBehaviour
 
     private NavMeshAgent _agent;
 
-    public Vector3 _initialPos;
-    public Quaternion _initialRotation;
-
-    private void Start()
-    {
-        _initialPos = transform.position;
-        GameManager._instance.GameplayReset.AddListener(Reset);
-    }
-
     public void Reset()
     {
         _player = GameManager._instance.player;
@@ -54,9 +45,8 @@ public class Enemy : MonoBehaviour
         _agent = GetComponent<NavMeshAgent>();
         _currentHealth = _health;
         _enemyState = EnemyState.IDLE;
-
-        transform.position = _initialPos;
-        transform.rotation = _initialRotation;
+        
+        gameObject.SetActive(true);
     }
 
     private float _timeSinceLastAttack = 0;
@@ -140,14 +130,19 @@ public class Enemy : MonoBehaviour
         
         if (_currentHealth <= 0)
         {
-            Kill();
+            Kill(false);
         }
     }
 
-    private void Kill()
+    public void Kill(bool systemKill)
     {
-        StatsManager._instance.AddScore(score);
+        if (!systemKill)
+        {
+            StatsManager._instance.AddScore(score);
+            EnemysHandler.instance.RandomSpawn();
+        }
+        
+        EnemysHandler.instance.RemoveEnemy(this);
         gameObject.SetActive(false);
-        EnemySpawner.instance.RandomSpawn();
     }
 }

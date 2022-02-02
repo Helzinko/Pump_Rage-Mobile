@@ -42,4 +42,10 @@ public class WeaponController : MonoBehaviour
             }
         }
     }
+
+    public void Reset()
+    {
+        _currentBullets = _bulletCount;
+        _timeSinceLastShot = 0f;
+    }
 }
