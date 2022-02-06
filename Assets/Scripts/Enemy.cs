@@ -57,15 +57,19 @@ public class Enemy : MonoBehaviour
 
         if (_enemyState == EnemyState.IDLE)
         {
-            RaycastHit hit;
-            Vector3 direction = _target.position - transform.position;
-            if (Physics.Raycast(transform.position, direction, out hit, _seeDistance))
+            if (_target)
             {
-                if (hit.transform == _target)
+                RaycastHit hit;
+                Vector3 direction = _target.position - transform.position;
+                if (Physics.Raycast(transform.position, direction, out hit, _seeDistance))
                 {
-                    _enemyState = EnemyState.CHASE;
-                    _agent.SetDestination(_target.position);
+                    if (hit.transform == _target)
+                    {
+                        _enemyState = EnemyState.CHASE;
+                        _agent.SetDestination(_target.position);
+                    }
                 }
+       
             }
             return;
         }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class PoolManager : MonoBehaviour
@@ -23,7 +24,10 @@ public class PoolManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        
+    }
+
+    public async Task Init()
+    {
         BulletPool = new Dictionary<GameTypes.Bullets, Queue<GameObject>>();
         EnemyPool = new Dictionary<GameTypes.Enemies, Queue<GameObject>>();
         SoundsPool = new Dictionary<GameTypes.Sounds, Queue<GameObject>>();
@@ -34,7 +38,7 @@ public class PoolManager : MonoBehaviour
 
             for (int i = 0; i < bullet.poolSize; i++)
             {
-                GameObject _bullet = Instantiate(bullet.prefab);
+                GameObject _bullet = Instantiate(bullet.prefab, gameObject.transform);
                 _bullet.SetActive(false);
                 bulletPool.Enqueue(_bullet);
             }
@@ -48,7 +52,7 @@ public class PoolManager : MonoBehaviour
 
             for (int i = 0; i < enemy.poolSize; i++)
             {
-                GameObject _enemy = Instantiate(enemy.prefab);
+                GameObject _enemy = Instantiate(enemy.prefab, gameObject.transform);
                 _enemy.SetActive(false);
                 enemyPool.Enqueue(_enemy);
             }
@@ -62,14 +66,14 @@ public class PoolManager : MonoBehaviour
 
             for (int i = 0; i < sound.poolSize; i++)
             {
-                GameObject _sound = Instantiate(sound.prefab);
+                GameObject _sound = Instantiate(sound.prefab, gameObject.transform);
                 _sound.SetActive(false);
                 soundPool.Enqueue(_sound);
             }
             
             SoundsPool.Add(sound.type, soundPool);
         }
-    }
+    } 
 
     public GameObject SpawnBullet(GameTypes.Bullets bullet, Vector3 pos, Quaternion rot)
     {

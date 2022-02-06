@@ -16,12 +16,12 @@ MonoBehaviour:
   - type: 0
     prefab: {fileID: 7799240085647733966, guid: 736110c5e8acb244b836a1f6a1b88964,
       type: 3}
-    poolSize: 10
+    poolSize: 20
   EnemiesPool:
   - type: 0
     prefab: {fileID: 3997216870685203697, guid: 8006c85995a85984a8749a5de3ad9be0,
       type: 3}
-    poolSize: 10
+    poolSize: 20
   SoundsPool:
   - type: 0
     prefab: {fileID: 6162198632775636237, guid: ddf580988265bd140be5951139f07751,

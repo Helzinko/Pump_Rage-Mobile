@@ -22,4 +22,10 @@ public class GameTypes : MonoBehaviour
         effect = 0,
         music = 1,
     }
+
+    public enum Scenes
+    {
+        startup = 0,
+        main = 1,
+    }
 }
