@@ -29,8 +29,6 @@ public class StartupManager : MonoBehaviour
 
         await PoolManager.instance.Init();
         UpdateProgress(.25f);
-        
-        //await Task.Delay(_delayTime);
 
         StartCoroutine(Delay(sceneLoading));
     }
@@ -43,11 +41,10 @@ public class StartupManager : MonoBehaviour
     {
         float seconds = 0;
 
-        while (seconds < 5)
+        while (seconds < 1)
         {
             seconds += .1f;
-            progressBar.value += .01f;
-            print(seconds);
+            progressBar.value += .1f;
             yield return new WaitForSeconds(0.1f);
         }
         

@@ -8,9 +8,9 @@ public class PoolManager : MonoBehaviour
 {
     public static PoolManager instance;
     
-    public Dictionary<GameTypes.Bullets, Queue<GameObject>> BulletPool;
-    public Dictionary<GameTypes.Enemies, Queue<GameObject>> EnemyPool;
-    public Dictionary<GameTypes.Sounds, Queue<GameObject>> SoundsPool;
+    private Dictionary<GameTypes.Bullets, Queue<GameObject>> BulletPool;
+    private Dictionary<GameTypes.Enemies, Queue<GameObject>> EnemyPool;
+    private Dictionary<GameTypes.Sounds, Queue<GameObject>> SoundsPool;
 
     [SerializeField] private PoolManagerSO _pools;
     void Awake()
