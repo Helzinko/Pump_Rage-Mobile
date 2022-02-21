@@ -57,8 +57,8 @@ public class Player : MonoBehaviour
         _rotationValue = value.ReadValue<Vector2>();
 
         if (_rotationValue.x != 0.0f || _rotationValue.y != 0.0f) {
-            var angle = Mathf.Atan2(_rotationValue.y, -_rotationValue.x) * Mathf.Rad2Deg;
-            transform.rotation = Quaternion.AngleAxis(angle, Vector3.up);
+            var angle = Mathf.Atan2(-_rotationValue.y, _rotationValue.x) * Mathf.Rad2Deg;
+            transform.rotation = Quaternion.AngleAxis(angle + 90f, Vector3.up);
         }
     }
 

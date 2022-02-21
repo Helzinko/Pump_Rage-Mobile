@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using Unity.Collections;
 
 public class StartupManager : MonoBehaviour
 {

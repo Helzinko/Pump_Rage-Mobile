@@ -53,14 +53,17 @@ public class Enemy : MonoBehaviour
     
     private void Update()
     {
-        if (_enemyState == EnemyState.DEAD) return;
-
         if (_enemyState == EnemyState.IDLE)
         {
             if (_target)
             {
                 RaycastHit hit;
                 Vector3 direction = _target.position - transform.position;
+                
+                // fix this
+                //direction = new Vector3(direction.x, 0, direction.y);
+                //
+                
                 if (Physics.Raycast(transform.position, direction, out hit, _seeDistance))
                 {
                     if (hit.transform == _target)
@@ -73,7 +76,6 @@ public class Enemy : MonoBehaviour
             }
             return;
         }
-
         _timeSinceLastAttack += Time.deltaTime;
         
         if (_enemyState == EnemyState.CHASE)
